@@ -29,12 +29,18 @@ void insert()
 	//2. node to be added
 	node *add=new node;
 	add->data=dat;
-	temp->data=dat;
+	add->left=NULL;
+	add->right=NULL;
+	add->parent=NULL;
+	temp->data=0;
+	temp->left=NULL;
+	temp->right=NULL;
+	temp->parent=NULL;
 	
 	//basecase
 	if(root==NULL)
 	{
-		root=temp;
+		root=add;
 		root->parent=NULL;
 		root->left=NULL;
 		root->right=NULL;
@@ -45,34 +51,52 @@ void insert()
 	{	
 		temp=root;
 		//Finding the leaf
-		while(temp->left!=NULL||temp->right!=NULL)
+	
+		while(1)
 		{
-			if(temp->data>dat)
-				temp=temp->left;
-			else if(temp->data<dat)
-				temp=temp->right;
-			else if(temp->data=dat)
+		//	temp=root;
+			if(temp->data > dat)
+			{
+				if(temp->left==NULL)
+				{
+				       
+			temp->left=add;
+			add->parent=temp;
+			break;
+				}
+				else
+				{
+					temp=temp->left;
+				}
+			}
+			else if(temp->data < dat)
+			{
+
+				if(temp->right==NULL)
+				{
+				       
+			temp->right=add;
+			add->parent=temp;
+			break;
+				}
+				else
+				{
+					temp=temp->right;
+				}
+			}
+			else if(temp->data == dat)
 			{
 				NULL;
 			}
 		}
 		
 		//Once found the node is installed in correct position
-		if(temp->data>dat)
-		{
-			temp->left=add;
-			add->parent=temp;
-		}
-		else if(temp->data<dat)
-		{
-			temp->right=add;
-			add->parent=temp;
-		}
+		
 	}
 }
 
 //search function
-void search()
+node *search()
 {
 	int a;
 	cout<<"\nEnter the element you want to search";
@@ -82,12 +106,16 @@ void search()
 	node *temp=new node;
 	temp=root;
 	//while loop for searching node by node 
-	while(temp->left!=NULL||temp->right!=NULL)
+	while(temp->left!=NULL && temp->right!=NULL)
 	{
 		if(temp->data>a)
-		temp=temp->left;
+		{
+			temp=temp->left;
+		}
 		else if(temp->data<a)
-		temp=temp->right;
+		{
+			temp=temp->right;
+		}
 		else if(temp->data==a)
 		{b=0;
 		break;}
@@ -96,8 +124,29 @@ if(b==0)
 cout<<"\nData is present";
 else
 cout<<"\nData is not present";
+
+return temp;
 }
 
+/*void deletenode(int d)
+{
+      node *amma=new node;
+      node *temp=new node;
+      temp=search();
+      amma=temp->parent;
+      
+      if(temp->left ==NULL && temp->right == NULL)
+      {
+      	if(amma->left->left==NULL)
+      	{
+      		amma->left=NULL;
+      	}
+      	else if(amma->right->right==NULL)
+      	{
+      		amma->right=NULL;
+      	}
+      }
+}*/
 //In order display function
 int display(node *temp)
 {
@@ -109,6 +158,7 @@ int display(node *temp)
 	cout<<"\t"<<temp->data<<"--";
 	
 	display(temp->right);
+	//cout<<"\t"<<temp->data<<"--";
 }
 
 int main()
@@ -116,14 +166,14 @@ int main()
 	int a,n,k,achoice,bchoice;
 	cout<<"\nEnter the initial tree";
 	cout<<"\n enter the number of nodes";
-	cin>>n;
+            cin>>n;
 	cout<<"\n enter the node keys";
 	for(int i=0;i<n;i++)
 	{
 		insert();
 	}
 	cout<<"\n";
-	a=display(root);
+	//a=display(root);
 	do{
 		cout<<"\nEnter option\n1)Insert\n2)Search\n3)Dislay";
 		cin>>achoice;
@@ -142,7 +192,4 @@ int main()
 	}while(bchoice==1);
 	
 	return 0;
-	
 }
-
-
