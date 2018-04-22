@@ -96,7 +96,151 @@ void insert()
 	}
 }
 
+//search function
+node *search(int data)
+{
+	int dat;
+	dat=data;
+	int b=1;
+	//Temporary variable for traversal
+	node *temp=new node;
+	temp=root;
+	//while loop for searching node by node 
+	while(1)
+		{
+		//	temp=root;
+			if(temp->data > dat)
+			{
+				if(temp->left==NULL)
+				{
+				       break;
+				}
+				else
+				{
+					temp=temp->left;
+				}
+			}
+			else if(temp->data < dat)
+			{
 
+				if(temp->right==NULL)
+				{
+				       
+		
+			break;
+				}
+				else
+				{
+					temp=temp->right;
+				}
+			}
+			else if(temp->data == dat)
+			{
+			b=0;
+			break;
+			}
+		}
+		
+		
+		
+if(b==0)
+cout<<"\nData is present";
+else
+cout<<"\nData is not present";
+
+return temp;
+}
+
+void deletenode(int d)
+{
+      node *amma=new node;
+      node *temp=new node;
+      node *child=new node;
+      node *grandchild=new node;
+      child=NULL;
+      grandchild=NULL;
+      temp=search(d);
+      amma=temp->parent;
+      if(temp->left ==NULL && temp->right == NULL)
+      {
+      	if(amma->left->left==NULL)
+      	{
+      		amma->left=NULL;
+      	}
+      	else if(amma->right->right==NULL)
+      	{
+      		amma->right=NULL;
+      	}
+      }
+      else if(temp->left!=NULL && temp->right!=NULL)
+      {
+      	child=temp->left;
+      	if(child->right==NULL)
+      	{
+      		child->parent=amma;
+      		grandchild=temp->right;
+      		child->right=grandchild;
+      		grandchild->parent=child;
+      	   	temp->parent=NULL;
+		temp->left=NULL;
+		temp->right=NULL;
+		temp->data=0;
+		delete temp;
+      	}
+      	else
+		{
+			while(child->right->right!=NULL)
+		{
+      			child=child->right;
+		}
+			grandchild=child->right;
+			temp->data=grandchild->data;
+			child->right=NULL;
+			delete grandchild;
+	            }
+      }
+      else if(temp->left==NULL || temp->right==NULL)
+      {
+      	
+      	if(temp->left!=NULL)
+      	{
+      		child=temp->left;
+      		if(amma->left==temp)
+      		{
+      			amma->left=child;
+      		}
+      		else if(amma->right==temp)
+      		{
+      			amma->right=child;
+      		}
+      	   	child->parent=amma;
+      		temp->parent=NULL;
+      		temp->left=NULL;
+      		delete temp;
+      	
+      	}
+      	else if(temp->right!=NULL)
+      	{
+      		child=temp->right;
+      		if(amma->right==temp)
+      		{
+      			amma->right=child;
+      		}
+      		else if(amma->left==temp)
+      		{
+      			amma->left=child;
+      		}
+      	   	child->parent=amma;
+      		temp->parent=NULL;
+      		temp->right=NULL;
+      		delete temp;
+      		
+      	}
+      	
+      }
+      
+      
+}
 //In order display function
 int display(node *temp)
 {
@@ -113,7 +257,7 @@ int display(node *temp)
 
 int main()
 {
-int a,n,achoice,bchoice;
+int a,n,k,achoice,bchoice,s,d;
 	cout<<"\nEnter the initial tree";
 	cout<<"\n enter the number of nodes";
             cin>>n;
@@ -125,14 +269,21 @@ int a,n,achoice,bchoice;
 	cout<<"\n";
 	a=display(root);
 	do{
-		cout<<"\nEnter option\t1)Insert\t2)Dislay";
+		cout<<"\nEnter option\t1)Insert\t2)Search\t3)Delete\t4)Dislay";
 		cin>>achoice;
 		switch(achoice)
 		{
 			case 1: insert();
 				break;
-			
-			case 2: a=display(root);
+			case 2:	cout<<"\n Enter the element to be searched";
+				cin>>s;
+				search(s);
+				break;
+			case 3: cout<<"\n Enter the element to be deleted";
+				cin>>d;
+				deletenode(d);
+				break;
+			case 4: a=display(root);
 			cout<<"\n";
 				break;
 		}
