@@ -1,3 +1,4 @@
+
 #include<iostream>
 using namespace std;
 
@@ -140,7 +141,7 @@ node *search(int data)
 			}
 		}
 		
-		//Once found the node is installed in correct position
+		
 		
 if(b==0)
 cout<<"\nData is present";
@@ -159,9 +160,7 @@ void deletenode(int d)
       child=NULL;
       grandchild=NULL;
       temp=search(d);
-      //cout<<"idiot......"<<temp->data;
       amma=temp->parent;
-     // cout<<"idiot......"<<amma->data;
       if(temp->left ==NULL && temp->right == NULL)
       {
       	if(amma->left->left==NULL)
@@ -172,6 +171,33 @@ void deletenode(int d)
       	{
       		amma->right=NULL;
       	}
+      }
+      else if(temp->left!=NULL && temp->right!=NULL)
+      {
+      	child=temp->left;
+      	if(child->right==NULL)
+      	{
+      		child->parent=amma;
+      		grandchild=temp->right;
+      		child->right=grandchild;
+      		grandchild->parent=child;
+      	   	temp->parent=NULL;
+		temp->left=NULL;
+		temp->right=NULL;
+		temp->data=0;
+		delete temp;
+      	}
+      	else
+		{
+			while(child->right->right!=NULL)
+		{
+      			child=child->right;
+		}
+			grandchild=child->right;
+			temp->data=grandchild->data;
+			child->right=NULL;
+			delete grandchild;
+	            }
       }
       else if(temp->left==NULL || temp->right==NULL)
       {
@@ -191,7 +217,7 @@ void deletenode(int d)
       		temp->parent=NULL;
       		temp->left=NULL;
       		delete temp;
-      		//cout<<"\nchild"<<child->data;
+      	
       	}
       	else if(temp->right!=NULL)
       	{
@@ -208,40 +234,12 @@ void deletenode(int d)
       		temp->parent=NULL;
       		temp->right=NULL;
       		delete temp;
-      		//	cout<<"\nchild"<<child->data;
+      		
       	}
       	
       }
-      else
-      {
-      	child=temp->left;
-      	if(child->right==NULL)
-      	{
-      		child->parent=amma;
-      		grandchild=temp->right;
-      		child->right=grandchild;
-      		grandchild->parent=child;
-      	//	cout<<"\n idiot."<<child->parent->data<<"\n";
-      		temp->parent=NULL;
-      	temp->left=NULL;
-      	temp->right=NULL;
-      	temp->data=NULL;
-delete temp;
-      	}
-      	else
-      	{
-      	while(child->right->right!=NULL)
-      	{
-      		child=child->right;
-      	}
-      	grandchild=child->right;
-      	temp->data=grandchild->data;
-      	child->right=NULL;
-      	delete grandchild;
-      //	cout<<"\n idiot....."<<grandchild->data;
-      //	cout<<"\n eruma......"<<temp->data;
-      }
-      }
+      
+      
 }
 //In order display function
 int display(node *temp)
@@ -254,7 +252,7 @@ int display(node *temp)
 	cout<<temp->data<<"-->";
 	
 	display(temp->right);
-	//cout<<"\t"<<temp->data<<"--";
+	
 }
 
 int main()
@@ -292,7 +290,5 @@ int a,n,k,achoice,bchoice,s,d;
 	cout<<"\n Do you wanna do somemore actions?  If yes press 1 if no press 0";
 	cin>>bchoice;
 	}while(bchoice==1);
-	deletenode(3);
-	a=display(root);
 	return 0;
 }
